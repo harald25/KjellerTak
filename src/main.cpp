@@ -76,7 +76,7 @@ void setup() {
 
 
   ledArrayMaker();
-  cycle();
+  blink();
 }
 
 void loop() {

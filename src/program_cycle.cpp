@@ -16,7 +16,7 @@ void cycle(cycle_mode c_mode, cycle_order c_order)
   value1 = 255;
   active_program = CYCLE;
   update = true;
-  program_index1 = 100;
+  program_index1 = 50;
   program_index2 = 0;
   delta = 20;
   total_steps1 = 350;
@@ -50,7 +50,8 @@ void cycleUpdate()
     // 'led_coordinates[x][0]' is the x-coordinate of the x'th pixel, 'led_coordinates[x][1]' is the y-coordinate of the x'th pixel
     for (int x = 0; x < NUM_LEDS_PER_STRIP*NUM_STRIPS; x++)
     {
-      uint16_t brightness;
+      uint16_t brightness1;
+      uint16_t brightness2;
       int16_t y1 = program_index1 + (slope*led_coordinates[x][0]);
       int16_t y2 = program_index2 + (slope*led_coordinates[x][0]);
       // Calculate the distance between the y coordinate of the current pixel the y to be lit, calculated above
@@ -58,30 +59,33 @@ void cycleUpdate()
       int16_t dist2 = abs(y2 - (led_coordinates[x][1]+delta));
 
       // If distance is less than delta, the pixel should be lit
-      if (dist1 < delta)
+      if ((dist1 < delta) || (dist2 < delta))
       {
-        // Calculate brightness of the current pixel based on distance
-        brightness = (delta-dist1)*(value1/delta);
+        if (dist1 < delta)
+        {
+          // Calculate brightness of the current pixel based on distance
+          brightness1 = (delta-dist1)*(value1/delta);
 
-        if (mode == RAINBOW) {
-          leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index1)%255), saturation1, brightness);
+          if (mode == RAINBOW) {
+            leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index1)%255), saturation1, brightness1);
+          }
+          if(mode == GRADIENT) {
+            leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index1)%255));
+            leds[led_array[x]].nscale8_video(brightness1);
+          }
         }
-        if(mode == GRADIENT) {
-          leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index1)%255));
-          leds[led_array[x]].nscale8_video(brightness);
-        }
-      }
-      if (dist2 < delta)
-      {
-        // Calculate brightness of the current pixel based on distance
-        brightness = (delta-dist2)*(value1/delta);
+        if (dist2 < delta)
+        {
+          // Calculate brightness of the current pixel based on distance
+          brightness2 = (delta-dist2)*(value1/delta);
 
-        if (mode == RAINBOW) {
-          leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index2)%255), saturation1, brightness);
-        }
-        if(mode == GRADIENT) {
-          leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index2)%255));
-          leds[led_array[x]].nscale8_video(brightness);
+          if (mode == RAINBOW) {
+            leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index2)%255), saturation1, brightness2);
+          }
+          if(mode == GRADIENT) {
+            leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index2)%255));
+            leds[led_array[x]].nscale8_video(brightness2);
+          }
         }
       }
       else {
