@@ -1,5 +1,7 @@
 #include "program_cycle.h"
 
+// Dette er en test
+
 cycle_order order;
 cycle_mode mode;
 
