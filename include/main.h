@@ -1,0 +1,51 @@
+#ifndef __MAIN_H_INCLUDED_
+#define __MAIN_H_INCLUDED_
+
+#define USE_OCTOWS2811
+#include<OctoWS2811.h>
+#include<FastLED.h>
+#include "program_custom_lamp.h"
+#include "utility_functions.h"
+#include "program_blink.h"
+#include "program_cycle.h"
+#include "osc.h"
+
+extern CRGBPalette16 blink_palette_purple;
+extern CRGBPalette16 blink_palette_orange;
+extern CRGBPalette16 blink_palette_bluetones;
+extern CRGBPalette16 heatcolorPalette;
+
+#define NUM_LEDS_PER_STRIP 150
+#define NUM_STRIPS 8
+#define COLOR_CORRECTION TypicalSMD5050
+#define GLOBAL_BRIGHTNESS 255
+extern CRGB leds [NUM_LEDS_PER_STRIP*NUM_STRIPS];
+
+// ----- Array to hold x and y coordinates for all the LEDs
+extern int led_coordinates [NUM_LEDS_PER_STRIP*NUM_STRIPS][2];
+
+// ----- An array that holds the correct order of the LEDs ----- //
+// ----- Because I put each individual LED strip in reverse in my roof T_T ----- //
+extern int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
+
+
+// ----- INITIALIZING VARIABLES ----- //
+enum program { NONE, CUSTOM_LAMP, BLINK, CYCLE};
+extern program active_program;
+extern int interval;
+extern int last_update;
+extern int program_index1;
+extern int program_index2;
+extern int increment_by1;
+extern int increment_by2;
+extern uint16_t total_steps1;
+extern uint16_t total_steps2;
+extern uint8_t saturation1;
+extern uint8_t value1;
+extern uint8_t hue1;
+extern bool update;
+extern char osc_message_address[18];
+extern float delta;
+extern float slope;
+
+#endif

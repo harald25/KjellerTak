@@ -1,0 +1,178 @@
+/*
+const uint16_t bjelke1[] = {1111, 1199};
+const uint16_t bjelke1_4[] = {1111,1132};
+const uint16_t bjelke1_3[] = {1133,1154};
+const uint16_t bjelke1_2[] = {1155,1176};
+const uint16_t bjelke1_1[] = {1177,1199};
+
+const uint16_t bjelke2[] = {1007,1093};
+const uint16_t bjelke2_4[] = {1007,1028};
+const uint16_t bjelke2_3[] = {1029,1050};
+const uint16_t bjelke2_2[] = {1051,1072};
+const uint16_t bjelke2_1[] = {1073,1093};
+
+
+const uint16_t bjelke3[] = {900,989};
+const uint16_t bjelke3_4[] = {900,922};
+const uint16_t bjelke3_3[] = {923,946};
+const uint16_t bjelke3_2[] = {947,968};
+const uint16_t bjelke3_1[] = {969,989};
+
+const uint16_t bjelke4[] = {794,882};
+const uint16_t bjelke4_4[] = {794,816};
+const uint16_t bjelke4_3[] = {817,838};
+const uint16_t bjelke4_2[] = {839,860};
+const uint16_t bjelke4_1[] = {861,882};
+
+const uint16_t bjelke5[] = {691,774};
+const uint16_t bjelke5_4[] = {691,711};
+const uint16_t bjelke5_3[] = {712,732};
+const uint16_t bjelke5_2[] = {733,752};
+const uint16_t bjelke5_1[] = {753,774};
+
+
+const uint16_t bjelke6[] = {585,672};
+const uint16_t bjelke6_4[] = {585,606};
+const uint16_t bjelke6_3[] = {607,628};
+const uint16_t bjelke6_2[] = {629,650};
+const uint16_t bjelke6_1[] = {651,672};
+
+const uint16_t bjelke7[] = {476,566};
+const uint16_t bjelke7_4[] = {476,498};
+const uint16_t bjelke7_3[] = {499,520};
+const uint16_t bjelke7_2[] = {521,543};
+const uint16_t bjelke7_1[] = {544,566};
+
+const uint16_t bjelke8[] = {368,457};
+const uint16_t bjelke8_4[] = {368,390};
+const uint16_t bjelke8_3[] = {391,413};
+const uint16_t bjelke8_2[] = {414,435};
+const uint16_t bjelke8_1[] = {436,457};
+
+const uint16_t bjelke9[] = {260,348};
+const uint16_t bjelke9_4[] = {260,282};
+const uint16_t bjelke9_3[] = {283,304};
+const uint16_t bjelke9_2[] = {305,326};
+const uint16_t bjelke9_1[] = {327,348};
+
+
+const uint16_t bjelke10[] = {152,242};
+const uint16_t bjelke10_4[] = {152,174};
+const uint16_t bjelke10_3[] = {175,197};
+const uint16_t bjelke10_2[] = {198,219};
+const uint16_t bjelke10_1[] = {220,242};
+
+
+const uint16_t side1[] = {1094,1110};
+const uint16_t side2[] = {990,1006};
+const uint16_t side3[] = {883,899};
+const uint16_t side4[] = {776,793};
+const uint16_t side5[] = {673,690};
+const uint16_t side6[] = {567,584};
+const uint16_t side7[] = {458,475};
+const uint16_t side8[] = {349,367};
+const uint16_t side9[] = {243,259};
+*/
+
+
+uint16_t lamps [][3] =
+{
+  {0,1177,1199},
+  {1,1155,1176},
+  {1,1133,1154},
+  {0,1111,1132},
+  {0,1094,1110},   //Side1
+  {0,1073,1093},
+  {1,1051,1072},
+  {1,1029,1050},
+  {0,1007,1028},
+  {0,990,1006},   //Side2
+  {0,969,989},
+  {1,947,968},
+  {1,923,946},
+  {0,900,922},
+  {0,883,899},    //Side3
+  {0,861,882},
+  {1,839,860},
+  {1,817,838},
+  {0,794,816},
+  {0,776,793},    //Side4
+  {0,753,774},
+  {1,733,752},
+  {1,712,732},
+  {0,691,711},
+  {0,673,690},    //Side5
+  {0,651,672},
+  {1,629,650},
+  {1,607,628},
+  {0,585,606},
+  {0,567,584},    //Side6
+  {0,544,566},
+  {1,521,543},
+  {1,499,520},
+  {0,476,498},
+  {0,458,475},    //Side7
+  {0,436,457},
+  {1,414,435},
+  {1,391,413},
+  {0,368,390},
+  {0,349,367},    //Side8
+  {0,327,348},
+  {1,305,326},
+  {1,283,304},
+  {0,260,282},
+  {0,243,259},    //Side9
+  {0,220,242},
+  {1,198,219},
+  {1,175,197},
+  {0,152,174},
+};
+
+void customLamp()
+{
+  program_index = 0;
+  total_steps = 0;
+  increment_by1 = 1;
+  hue1 = 25;
+  saturation1 = 150;
+  value1 = 255;
+  active_program = CUSTOM_LAMP;
+  update = true;
+}
+
+void customLampUpdate()
+{
+  for (int i = 0; i < 49; i++)
+  {
+    if (lamps[i][0])
+    {
+      for (int j = lamps[i][1]; j < (lamps[i][2]+1); j++)
+      {
+        leds[led_array[j]] = CHSV(hue1,saturation1,value1);
+      }
+    }
+    else
+    {
+      for (int j = lamps[i][1]; j < (lamps[i][2]+1); j++)
+      {
+        leds[led_array[j]] = CRGB::Black;
+      }
+    }
+  }
+  update = false; //No need to keep updating a static program
+  FastLED.show();
+}
+
+void activateDeactivateLamp(uint8_t lamp_number)
+{
+
+  if (lamp_number > 0)
+  {
+    //Touch OSC is configured to start at 1 instead of 0 like the array of lamps does
+    lamp_number = lamp_number - 1;
+    //Flips from 1 to 0, or 0 to 1
+    lamps[lamp_number][0] = 1-lamps[lamp_number][0];
+    Serial.printf("Lamp number %d turned to %d \n", lamp_number, lamps[lamp_number][0]);
+    update = true;
+  }
+}
