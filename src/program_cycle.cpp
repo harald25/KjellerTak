@@ -16,11 +16,11 @@ void cycle(cycle_mode c_mode, cycle_order c_order)
   value1 = 255;
   active_program = CYCLE;
   update = true;
-  program_index1 = 0;
+  program_index1 = 100;
   program_index2 = 0;
   delta = 20;
   total_steps1 = 350;
-  total_steps2 = 255;
+  total_steps2 = 350;
   increment_by1 = 1;
   interval = 35;
   active_cycle_palette = &heatcolorPalette;
@@ -50,33 +50,46 @@ void cycleUpdate()
     // 'led_coordinates[x][0]' is the x-coordinate of the x'th pixel, 'led_coordinates[x][1]' is the y-coordinate of the x'th pixel
     for (int x = 0; x < NUM_LEDS_PER_STRIP*NUM_STRIPS; x++)
     {
-
-      int16_t y = program_index1 + (slope*led_coordinates[x][0]);
+      uint16_t brightness;
+      int16_t y1 = program_index1 + (slope*led_coordinates[x][0]);
+      int16_t y2 = program_index2 + (slope*led_coordinates[x][0]);
       // Calculate the distance between the y coordinate of the current pixel the y to be lit, calculated above
-      int16_t dist = abs(y - (led_coordinates[x][1]+delta));
+      int16_t dist1 = abs(y1 - (led_coordinates[x][1]+delta));
+      int16_t dist2 = abs(y2 - (led_coordinates[x][1]+delta));
 
       // If distance is less than delta, the pixel should be lit
-      if (dist < delta) {
+      if (dist1 < delta)
+      {
         // Calculate brightness of the current pixel based on distance
-        uint16_t brightness = (delta-dist)*(value1/delta);
+        brightness = (delta-dist1)*(value1/delta);
 
         if (mode == RAINBOW) {
-          leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index1+program_index2)%255), saturation1, brightness);
+          leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index1)%255), saturation1, brightness);
         }
         if(mode == GRADIENT) {
-          leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index1+program_index2)%255));
+          leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index1)%255));
+          leds[led_array[x]].nscale8_video(brightness);
+        }
+      }
+      if (dist2 < delta)
+      {
+        // Calculate brightness of the current pixel based on distance
+        brightness = (delta-dist2)*(value1/delta);
+
+        if (mode == RAINBOW) {
+          leds[led_array[x]] = CHSV(((led_coordinates[x][1]+program_index2)%255), saturation1, brightness);
+        }
+        if(mode == GRADIENT) {
+          leds[led_array[x]] = ColorFromPalette(*active_cycle_palette,((led_coordinates[x][1]+program_index2)%255));
           leds[led_array[x]].nscale8_video(brightness);
         }
       }
       else {
         leds[led_array[x]] = CRGB::Black;
       }
-
     }
-    incrementIndex(&program_index2, &total_steps2, &increment_by2);
   }
-
+  incrementIndex(&program_index2, &total_steps2, &increment_by2);
   incrementIndex(&program_index1, &total_steps1, &increment_by1);
-
   FastLED.show();
 }
