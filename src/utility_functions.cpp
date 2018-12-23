@@ -34,13 +34,23 @@ void updateLEDs()
 }
 
 // Increment the Index and reset at the end
-void incrementIndex(int *program_index1, uint16_t *total_steps1, int *increment_by1)
+void incrementIndex(int *program_index, uint16_t *total_steps, int *increment_by)
 {
-  *program_index1 = *program_index1 + *increment_by1;
-
-  if (*program_index1 >= *total_steps1)
+  if (dir == FORWARD)
   {
-    *program_index1 = 0;
+    *program_index = *program_index + *increment_by;
+    if (*program_index >= *total_steps)
+    {
+      *program_index = 0;
+    }
+  }
+  if (dir == REVERSE)
+  {
+    *program_index = *program_index - *increment_by;
+    if (*program_index <= 0)
+    {
+      *program_index = *total_steps;
+    }
   }
 }
 
