@@ -52,24 +52,6 @@ void setInterval(uint8_t i) {
   interval = i;
 }
 
-void setHue1(uint8_t h) {
-  hue1 = h;
-}
-
-void setSaturation1(uint8_t s) {
-  saturation1 = s;
-}
-
-void setValue1(uint8_t v) {
-  value1 = v;
-}
-
-void setColor1(uint8_t x, uint8_t y)
-{
-  saturation1 = x;
-  hue1 = y;
-}
-
 void setBlinkRandomTime(uint32_t x)
 {
   blink_random_time = x;
@@ -100,16 +82,28 @@ void changeLEDProgram(OSCMessage &msg, int addrOffset )
     cycle();
     Serial.println("Activated the program Cycle");
   }
+
+  if(msg.fullMatch("/Program/theater_chase"))
+  {
+    theaterChase();
+    Serial.println("Activated the program Theater Chase");
+  }
+
+  if(msg.fullMatch("/Program/scanner"))
+  {
+    scanner();
+    Serial.println("Activated the program Scanner");
+  }
 }
 
 void changeValue(OSCMessage &msg, int addrOffset )
 {
-  update = true;
 
   if (msg.fullMatch("/Variable/delta"))
   {
     float value = msg.getFloat(0);
     delta = (int)value;
+    update = true;
   }
 
   if (msg.fullMatch("/Variable/slope"))
@@ -117,41 +111,80 @@ void changeValue(OSCMessage &msg, int addrOffset )
     float value = msg.getFloat(0);
     Serial.println(value);
     setSlope(value);
+    update = true;
   }
 
   if (msg.fullMatch("/Variable/interval"))
   {
     float value = msg.getFloat(0);
     setInterval((int)value);
+    update = true;
   }
 
   if (msg.fullMatch("/Variable/value1"))
   {
-    float value = msg.getFloat(0);
-    setValue1((int)value);
+    uint8_t value = (uint8_t)msg.getFloat(0);
+    value1 = value;
+    update = true;
+  }
+  if (msg.fullMatch("/Variable/value2"))
+  {
+    uint8_t value = (uint8_t)msg.getFloat(0);
+    value2 = value;
+    update = true;
   }
   if (msg.fullMatch("/Variable/saturation1"))
   {
-    float saturation = msg.getFloat(0);
-    setSaturation1((int)saturation);
+    uint8_t saturation = (uint8_t)msg.getFloat(0);
+    saturation1 = saturation;
+    update = true;
+  }
+  if (msg.fullMatch("/Variable/saturation2"))
+  {
+    uint8_t saturation = (uint8_t)msg.getFloat(0);
+    saturation2 = saturation;
+    update = true;
   }
   if (msg.fullMatch("/Variable/hue1"))
   {
-    float hue = msg.getFloat(0);
-    setHue1((int)hue);
+    uint8_t hue = (uint8_t)msg.getFloat(0);
+    hue1 = hue;
+    update = true;
+  }
+  if (msg.fullMatch("/Variable/hue2"))
+  {
+    uint8_t hue = (uint8_t)msg.getFloat(0);
+    hue2 = hue;
+    update = true;
   }
 
   if (msg.match("/Variable/lamp"))
   {
     float lamp = msg.getFloat(0);
     activateDeactivateLamp(uint8_t(lamp));
+    update = true;
   }
 
   if (msg.fullMatch("/Variable/color1"))
   {
-    float x = msg.getFloat(0);
-    float y = msg.getFloat(1);
-    setColor1((int)x,(int)y);
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    uint8_t y = (uint8_t)msg.getFloat(1);
+
+    saturation1 = x;
+    hue1 = y;
+
+    update = true;
+  }
+
+  if (msg.fullMatch("/Variable/color2"))
+  {
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    uint8_t y = (uint8_t)msg.getFloat(1);
+
+    saturation2 = x;
+    hue2 = y;
+
+    update = true;
   }
 
   //Random interval for blink
@@ -159,6 +192,7 @@ void changeValue(OSCMessage &msg, int addrOffset )
   {
     float value = msg.getFloat(0);
     setBlinkRandomTime((int)value);
+    update = true;
   }
 
   if (msg.fullMatch("/Variable/palette"))
@@ -167,5 +201,68 @@ void changeValue(OSCMessage &msg, int addrOffset )
     if (x > -1) {
       setActivePalette(x);
     }
+    else {
+      setActivePalette(0);
+    }
+    update = true;
   }
+
+  if (msg.fullMatch("/Variable/chase_mode"))
+  {
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    if (x > -1)
+    {
+      if (x == 1) {
+        c_mode = REGULAR;
+      }
+      else if (x == 2) {
+        c_mode = RAINBOW_CHASE;
+      }
+    }
+    update = true;
+  }
+
+  if (msg.fullMatch("/Variable/pixel_distance"))
+  {
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    pixel_distance = x;
+    update = true;
+  }
+
+  if (msg.fullMatch("/Variable/pixel_width"))
+  {
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    pixel_width = x;
+    update = true;
+  }
+
+  if (msg.fullMatch("/Variable/direction"))
+  {
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    Serial.print("Direction: ");
+    Serial.println(x);
+    if (x == 1) {
+      dir = FORWARD;
+    }
+    if (x == 2) {
+      dir = REVERSE;
+    }
+    update = true;
+  }
+
+  if (msg.fullMatch("/Variable/stopstart"))
+  {
+    update = 1-update;
+    FastLED.delay(10);
+    Serial.print("Update: ");
+    Serial.println(update);
+  }
+
+  if (msg.fullMatch("/Variable/tail_length"))
+  {
+    uint8_t x = (uint8_t)msg.getFloat(0);
+    tail_length = x;
+    update = true;
+  }
+
 }

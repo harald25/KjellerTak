@@ -82,7 +82,7 @@ void setup() {
 
 
   ledArrayMaker();
-  scanner();
+  theaterChase();
 }
 
 void loop() {

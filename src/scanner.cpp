@@ -11,7 +11,7 @@ void scanner()
   hue1 = 10;
   value1 = 255;
   saturation1 = 255;
-  tail_length = 8;
+  tail_length = 10;
   if (displaymode == CONTINOUS_STRIP) {
   total_steps1 = (NUM_LEDS_PER_STRIP*NUM_STRIPS-1)*2;
   }
