@@ -9,6 +9,7 @@
 #include "program_blink.h"
 #include "program_cycle.h"
 #include "osc.h"
+#include "theater_chase.h"
 
 extern CRGBPalette16 blink_palette_purple;
 extern CRGBPalette16 blink_palette_orange;
@@ -30,7 +31,9 @@ extern int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 
 
 // ----- INITIALIZING VARIABLES ----- //
-enum program { NONE, CUSTOM_LAMP, BLINK, CYCLE};
+enum program { NONE, CUSTOM_LAMP, BLINK, CYCLE, THEATER_CHASE};
+enum direction { FORWARD, REVERSE};
+extern direction dir;
 extern program active_program;
 extern int interval;
 extern int last_update;
@@ -43,6 +46,9 @@ extern uint16_t total_steps2;
 extern uint8_t saturation1;
 extern uint8_t value1;
 extern uint8_t hue1;
+extern uint8_t saturation2;
+extern uint8_t value2;
+extern uint8_t hue2;
 extern bool update;
 extern char osc_message_address[18];
 extern float delta;

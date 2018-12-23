@@ -1,6 +1,7 @@
 #include "main.h"
 int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 CRGB leds [NUM_LEDS_PER_STRIP*NUM_STRIPS];
+direction dir;
 program active_program;
 int interval;
 int last_update;
@@ -13,6 +14,9 @@ uint16_t total_steps2;
 uint8_t saturation1;
 uint8_t value1;
 uint8_t hue1;
+uint8_t saturation2;
+uint8_t value2;
+uint8_t hue2;
 bool update;
 char osc_message_address[18];
 float delta;
@@ -21,6 +25,7 @@ float slope;
 // Put in a separate file because it's long as fuck
 #include "led_coordinate_array.txt"
 
+// GRADIENT PALLETTES
 DEFINE_GRADIENT_PALETTE( blink_purple_gp ) {
   0,     0,  0,  0,     //black
 100,   255,  0,  255,   //Purple
@@ -76,11 +81,10 @@ void setup() {
 
 
   ledArrayMaker();
-  cycle();
+  theaterChase();
 }
 
 void loop() {
     OSCMsgReceive();
     updateLEDs();
-    //Serial.println("Looping");
 }

@@ -20,6 +20,9 @@ void updateLEDs()
         case CYCLE:
           cycleUpdate();
           break;
+        case THEATER_CHASE:
+          theaterChaseUpdate();
+          break;
         default:
           break;
       }

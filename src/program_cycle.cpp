@@ -1,7 +1,4 @@
 #include "program_cycle.h"
-// dette er enda en test
-// Dette er en test
-
 cycle_order order;
 cycle_mode mode;
 
