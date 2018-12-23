@@ -10,6 +10,7 @@
 #include "program_cycle.h"
 #include "osc.h"
 #include "theater_chase.h"
+#include "scanner.h"
 
 extern CRGBPalette16 blink_palette_purple;
 extern CRGBPalette16 blink_palette_orange;
@@ -31,8 +32,10 @@ extern int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 
 
 // ----- INITIALIZING VARIABLES ----- //
-enum program { NONE, CUSTOM_LAMP, BLINK, CYCLE, THEATER_CHASE};
+enum program { NONE, CUSTOM_LAMP, BLINK, CYCLE, THEATER_CHASE, SCANNER};
 enum direction { FORWARD, REVERSE};
+enum display_mode { CONTINOUS_STRIP, SAME_ON_ALL_STRIPS };
+extern display_mode displaymode;
 extern direction dir;
 extern program active_program;
 extern int interval;

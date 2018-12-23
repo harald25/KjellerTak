@@ -1,6 +1,7 @@
 #include "main.h"
 int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 CRGB leds [NUM_LEDS_PER_STRIP*NUM_STRIPS];
+display_mode displaymode;
 direction dir;
 program active_program;
 int interval;
@@ -81,7 +82,7 @@ void setup() {
 
 
   ledArrayMaker();
-  theaterChase();
+  scanner();
 }
 
 void loop() {

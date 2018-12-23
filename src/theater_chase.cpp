@@ -6,7 +6,7 @@ uint8_t pixel_distance;
 
 void theaterChase()
 {
-  c_mode = RAINBOW_CHASE;
+  c_mode = REGULAR;
   active_program = THEATER_CHASE;
   total_steps1 = NUM_STRIPS*NUM_LEDS_PER_STRIP;
   interval = 100;
@@ -18,8 +18,8 @@ void theaterChase()
   value2 = 0;
   program_index1 = 0;
   dir = FORWARD;
-  pixel_distance = 5;
-  pixel_width = 5;
+  pixel_distance = 15;
+  pixel_width = 1;
   update = true;
   increment_by1 = 1;
 }
@@ -56,7 +56,7 @@ void theaterChaseUpdate()
   {
     for(int i=0; i< NUM_STRIPS*NUM_LEDS_PER_STRIP; i++)
     {
-      if ((i + program_index1) % pixel_distance == 0)
+      if (((i + program_index1) % pixel_distance >= 0) && ((i + program_index1) % pixel_distance < pixel_width))
       {
         leds[led_array[i]] = CHSV(hue1, saturation1, value1);
       }

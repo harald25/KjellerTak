@@ -23,6 +23,9 @@ void updateLEDs()
         case THEATER_CHASE:
           theaterChaseUpdate();
           break;
+        case SCANNER:
+          scannerUpdate();
+          break;
         default:
           break;
       }
