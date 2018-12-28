@@ -21,5 +21,7 @@ void updateBlinkRandomTime(uint32_t x);
 void setActivePalette(int x);
 void setBlinkRandomTime(uint32_t x);
 void allLedsOff();
+void allLedsOn();
+void setColorPreset(uint8_t color_preset);
 
 #endif

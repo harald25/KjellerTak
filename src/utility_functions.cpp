@@ -54,6 +54,15 @@ void incrementIndex(int *program_index, uint16_t *total_steps, int *increment_by
   }
 }
 
+void setHue1(uint8_t hue) {
+  hue1 = hue;
+}
+void setValue1(uint8_t value) {
+  value1 = value;
+}
+void setSaturation1(uint8_t saturation) {
+  saturation1 = saturation;
+}
 void setSlope(float s) {
   slope = s;
 }
@@ -73,12 +82,28 @@ void setActivePalette(int x) {
 
 void changePreset(OSCMessage &msg, int addrOffset )
 {
-  update = true;
+  Serial.println("Changing preset");
+  update = true;  //Times are a changin', we need to update
 
   if(msg.fullMatch("/Preset/custom_lamp") && (active_program == CUSTOM_LAMP))
   {
+    Serial.println("CustomlampPreset");
     uint8_t preset_number = (uint8_t)msg.getFloat(0);
     setCustomlampPreset(preset_number);
+  }
+
+}
+
+void changeColorPreset(OSCMessage &msg, int addrOffset )
+{
+  Serial.println("Changing color preset");
+  update = true;  //Times are a changin', we need to update
+
+  if(msg.fullMatch("/Colorpreset/") && (active_program == CUSTOM_LAMP))
+  {
+    Serial.println("ColorPreset");
+    uint8_t color_preset_number = (uint8_t)msg.getFloat(0);
+    setColorPreset(color_preset_number);
   }
 }
 
@@ -191,8 +216,8 @@ void changeValue(OSCMessage &msg, int addrOffset )
     uint8_t x = (uint8_t)msg.getFloat(0);
     uint8_t y = (uint8_t)msg.getFloat(1);
 
-    saturation1 = x;
-    hue1 = y;
+    setSaturation1(x);
+    setHue1(y);
 
     update = true;
   }
@@ -293,5 +318,47 @@ void allLedsOff()
   for(int x = 0; x < NUM_LEDS_PER_STRIP*NUM_STRIPS;x++)
   {
     leds[led_array[x]] = CRGB::Black;
+  }
+}
+
+void allLedsOn()
+{
+  for(int x = 0; x < NUM_LEDS_PER_STRIP*NUM_STRIPS;x++)
+  {
+    leds[led_array[x]] = CRGB::White;
+  }
+}
+
+void setColorPreset(uint8_t color_preset)
+{
+  //Warm white
+  if(color_preset == 1)
+  {
+    setHue1(25);
+    setSaturation1(200);
+    setValue1(255);
+  }
+
+  //Orange
+  if(color_preset == 2)
+  {
+    setHue1(200);
+    setSaturation1(200);
+    setValue1(255);
+  }
+
+  //Bluegreen
+  if(color_preset == 3)
+  {
+    setHue1(128);
+    setSaturation1(255);
+    setValue1(255);
+  }
+  //Purple
+  if(color_preset == 4)
+  {
+    setHue1(230);
+    setSaturation1(255);
+    setValue1(255);
   }
 }

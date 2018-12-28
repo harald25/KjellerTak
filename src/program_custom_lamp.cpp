@@ -144,10 +144,70 @@ void setLampAddress(int lamp)
 
 void setCustomlampPreset(uint8_t preset_number)
 {
+  //Skinkelys
   if (preset_number == 1)
   {
+    Serial.println("CustomlampPreset 1");
     allLedsOff();
+    activateDeactivateLamp(20);
+    activateDeactivateLamp(21);
+    activateDeactivateLamp(22);
+    activateDeactivateLamp(23);
+
+    setValue1(100);
+    setHue1(50);
+    setSaturation1(200);
+  }
+  //Gaming
+  if (preset_number == 2)
+  {
+    Serial.println("CustomlampPreset 2");
+    allLedsOff();
+    activateDeactivateLamp(2);
+    activateDeactivateLamp(3);
+    activateDeactivateLamp(4);
+    activateDeactivateLamp(5);
+    activateDeactivateLamp(6);
+
+    setValue1(175);
+    setHue1(50);
+    setSaturation1(200);
+  }
+  //Arbeidslys
+  if (preset_number == 3)
+  {
+    for(int x = 1; x < 49; x++)
+    {
+      lamps[x][0] = 1;
+    }
+    setValue1(255);
+    setHue1(255);
+    setSaturation1(0);
+
+  }
+
+  if (preset_number == 4)
+  {
+    Serial.println("CustomlampPreset 4");
+    allLampsOff();
     activateDeactivateLamp(21);
     activateDeactivateLamp(22);
   }
+}
+
+void allLampsOn()
+{
+  for(int x = 1; x < 49; x++)
+  {
+    lamps[x][0] = 1;
+  }
+  setValue1(255);
+}
+void allLampsOff()
+{
+  for(int x = 1; x < 49; x++)
+  {
+    lamps[x][0] = 0;
+  }
+
 }
