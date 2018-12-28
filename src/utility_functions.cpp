@@ -71,6 +71,17 @@ void setActivePalette(int x) {
   active_palette = blink_palette_array[x];
 }
 
+void changePreset(OSCMessage &msg, int addrOffset )
+{
+  update = true;
+
+  if(msg.fullMatch("/Preset/custom_lamp") && (active_program == CUSTOM_LAMP))
+  {
+    uint8_t preset_number = (uint8_t)msg.getFloat(0);
+    setCustomlampPreset(preset_number);
+  }
+}
+
 void changeLEDProgram(OSCMessage &msg, int addrOffset )
 {
   update = true;
@@ -275,4 +286,12 @@ void changeValue(OSCMessage &msg, int addrOffset )
     update = true;
   }
 
+}
+
+void allLedsOff()
+{
+  for(int x = 0; x < NUM_LEDS_PER_STRIP*NUM_STRIPS;x++)
+  {
+    leds[led_array[x]] = CRGB::Black;
+  }
 }

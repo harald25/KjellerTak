@@ -69,6 +69,7 @@ void OSCMsgReceive()
     Serial.println("Routing OSC message");
     msgIN.route("/Program",changeLEDProgram);
     msgIN.route("/Variable",changeValue);
+    msgIN.route("/Preset",changePreset);
   }
 
 }

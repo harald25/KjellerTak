@@ -56,6 +56,7 @@ uint16_t lamps [][3] =
 
 void customLamp()
 {
+  allLedsOff();   //Turn all LEDS off first
   //This loop sets the lamps back to their "start state" as defined in the original 'lamps'-array
   //It is necessary in order for the lamp states to reset when the program is reactivated from touchOSC
   //The state defined when the array is initialized doesn't actually matter since this overwrites everything
@@ -139,4 +140,14 @@ void setLampAddress(int lamp)
   char lamp_number[3];
   itoa(lamp,lamp_number,10);
   strcat(osc_message_address,lamp_number);
+}
+
+void setCustomlampPreset(uint8_t preset_number)
+{
+  if (preset_number == 1)
+  {
+    allLedsOff();
+    activateDeactivateLamp(21);
+    activateDeactivateLamp(22);
+  }
 }

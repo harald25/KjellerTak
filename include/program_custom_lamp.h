@@ -10,5 +10,6 @@ void customLamp();
 void customLampUpdate();
 void activateDeactivateLamp(int lamp_number);
 void setLampAddress(int lamp);
+void setCustomlampPreset(uint8_t preset_number);
 
 #endif
