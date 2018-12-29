@@ -175,11 +175,10 @@ void setCustomlampPreset(uint8_t preset_number)
     activateDeactivateLamp(4);
     activateDeactivateLamp(5);
     activateDeactivateLamp(6);
-
-    setValue1(175);
-    setHue1(50);
-    setSaturation1(200);
     updateCustomLampState();
+
+    //Orange
+    setColorPreset(2);
   }
   //Arbeidslys
   if (preset_number == 3)
@@ -216,6 +215,9 @@ void setCustomlampPreset(uint8_t preset_number)
     activateDeactivateLamp(27);
     activateDeactivateLamp(28);
     updateCustomLampState();
+
+    //Warm White
+    setColorPreset(1);
   }
 }
 
