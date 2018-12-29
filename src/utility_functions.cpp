@@ -107,7 +107,7 @@ void changeColorPreset(OSCMessage &msg, int addrOffset )
 
   update = true;  //Times are a changin', we need to update
 
-  if(msg.fullMatch("/Colorpreset") && (active_program == CUSTOM_LAMP))
+  if(msg.fullMatch("/Colorpreset"))
   {
 
     if (debug) {
