@@ -82,12 +82,17 @@ void setActivePalette(int x) {
 
 void changePreset(OSCMessage &msg, int addrOffset )
 {
-  Serial.println("Changing preset");
+  if (debug) {
+    Serial.println("Changing preset");
+  }
+
   update = true;  //Times are a changin', we need to update
 
   if(msg.fullMatch("/Preset/custom_lamp") && (active_program == CUSTOM_LAMP))
   {
-    Serial.println("CustomlampPreset");
+    if (debug) {
+      Serial.println("CustomlampPreset");
+    }
     uint8_t preset_number = (uint8_t)msg.getFloat(0);
     setCustomlampPreset(preset_number);
   }
@@ -96,12 +101,18 @@ void changePreset(OSCMessage &msg, int addrOffset )
 
 void changeColorPreset(OSCMessage &msg, int addrOffset )
 {
-  Serial.println("Changing color preset");
+  if (debug) {
+    Serial.println("Changing color preset");
+  }
+
   update = true;  //Times are a changin', we need to update
 
   if(msg.fullMatch("/Colorpreset/") && (active_program == CUSTOM_LAMP))
   {
-    Serial.println("ColorPreset");
+
+    if (debug) {
+      Serial.println("ColorPreset");
+    }
     uint8_t color_preset_number = (uint8_t)msg.getFloat(0);
     setColorPreset(color_preset_number);
   }
@@ -114,31 +125,46 @@ void changeLEDProgram(OSCMessage &msg, int addrOffset )
   if(msg.fullMatch("/Program/custom_lamp"))
   {
     customLamp();
-    Serial.println("Activated the program Custom Lamp");
+    if (debug) {
+      Serial.println("Activated the program Custom Lamp");
+    }
+
   }
 
   if(msg.fullMatch("/Program/blink"))
   {
     blink();
-    Serial.println("Activated the program Blink");
+
+    if (debug) {
+      Serial.println("Activated the program Blink");
+    }
   }
 
   if(msg.fullMatch("/Program/cycle"))
   {
     cycle();
-    Serial.println("Activated the program Cycle");
+    if (debug) {
+      Serial.println("Activated the program Cycle");
+    }
+
   }
 
   if(msg.fullMatch("/Program/theater_chase"))
   {
     theaterChase();
-    Serial.println("Activated the program Theater Chase");
+
+    if (debug) {
+      Serial.println("Activated the program Theater Chase");
+    }
   }
 
   if(msg.fullMatch("/Program/scanner"))
   {
     scanner();
-    Serial.println("Activated the program Scanner");
+
+    if (debug) {
+      Serial.println("Activated the program Scanner");
+    }
   }
 }
 

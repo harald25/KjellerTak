@@ -1,4 +1,9 @@
 #include "main.h"
+
+// DEGUGGING
+// If set to true, debug messages will be output to serial device
+bool debug = true;
+
 int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 CRGB leds [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 display_mode displaymode;
@@ -82,7 +87,7 @@ void setup() {
 
 
   ledArrayMaker();
-  theaterChase();
+  customLamp();
 }
 
 void loop() {

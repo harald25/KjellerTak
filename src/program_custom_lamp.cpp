@@ -68,6 +68,18 @@ void customLamp()
     }
   }
 
+  updateCustomLampState();
+
+  hue1 = 25;
+  saturation1 = 255;
+  value1 = 255;
+  active_program = CUSTOM_LAMP;
+  update = true;
+}
+
+//Updates touchOSC with the current on/off state of all lamps
+void updateCustomLampState()
+{
   //This loop sends the state of all lamps to touchOSC via OSC-messages. This updates the push buttons in the app
   for (int x = 0; x < 49; x++)
   {
@@ -79,14 +91,8 @@ void customLamp()
     }
     setLampAddress(x+1);
     OSCMsgSend(osc_message_value);
-    delay(1); //Might not be necessary, but I thought a delay might be smart so the ESP is not hammered with too many messages at a time
+    FastLED.delay(1); //Might not be necessary, but I thought a delay might be smart so the ESP is not hammered with too many messages at a time
   }
-
-  hue1 = 25;
-  saturation1 = 255;
-  value1 = 255;
-  active_program = CUSTOM_LAMP;
-  update = true;
 }
 
 void customLampUpdate()
@@ -148,21 +154,22 @@ void setCustomlampPreset(uint8_t preset_number)
   if (preset_number == 1)
   {
     Serial.println("CustomlampPreset 1");
-    allLedsOff();
-    activateDeactivateLamp(20);
+    allLampsOff();
     activateDeactivateLamp(21);
     activateDeactivateLamp(22);
     activateDeactivateLamp(23);
+    activateDeactivateLamp(24);
 
     setValue1(100);
-    setHue1(50);
+    setHue1(30);
     setSaturation1(200);
+    updateCustomLampState();
   }
   //Gaming
   if (preset_number == 2)
   {
     Serial.println("CustomlampPreset 2");
-    allLedsOff();
+    allLampsOff();
     activateDeactivateLamp(2);
     activateDeactivateLamp(3);
     activateDeactivateLamp(4);
@@ -172,32 +179,49 @@ void setCustomlampPreset(uint8_t preset_number)
     setValue1(175);
     setHue1(50);
     setSaturation1(200);
+    updateCustomLampState();
   }
   //Arbeidslys
   if (preset_number == 3)
   {
-    for(int x = 1; x < 49; x++)
-    {
-      lamps[x][0] = 1;
-    }
+    Serial.println("CustomlampPreset 3");
+    allLampsOn();
     setValue1(255);
     setHue1(255);
     setSaturation1(0);
-
+    updateCustomLampState();
   }
-
+  //Bordlys (lys over kontorpulter, sofa, og bord)
   if (preset_number == 4)
   {
     Serial.println("CustomlampPreset 4");
     allLampsOff();
+    //Over Harald PC
+    activateDeactivateLamp(2);
+    activateDeactivateLamp(3);
+    activateDeactivateLamp(4);
+    //Over Jon PC
+    activateDeactivateLamp(12);
+    activateDeactivateLamp(11);
+    //Over sofa
     activateDeactivateLamp(21);
     activateDeactivateLamp(22);
+    activateDeactivateLamp(23);
+    activateDeactivateLamp(24);
+    activateDeactivateLamp(30);
+    activateDeactivateLamp(40);
+    //Over stuebord
+    activateDeactivateLamp(33);
+    activateDeactivateLamp(32);
+    activateDeactivateLamp(27);
+    activateDeactivateLamp(28);
+    updateCustomLampState();
   }
 }
 
 void allLampsOn()
 {
-  for(int x = 1; x < 49; x++)
+  for(int x = 0; x < 49; x++)
   {
     lamps[x][0] = 1;
   }
@@ -205,7 +229,7 @@ void allLampsOn()
 }
 void allLampsOff()
 {
-  for(int x = 1; x < 49; x++)
+  for(int x = 0; x < 49; x++)
   {
     lamps[x][0] = 0;
   }

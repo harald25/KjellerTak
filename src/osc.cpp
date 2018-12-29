@@ -15,10 +15,12 @@ void OSCMsgSend(float value)
     SLIPSerial.beginPacket();
     msgOUT.send(SLIPSerial);
     SLIPSerial.endPacket();
-    Serial.println("Pakke sendt til ESP!");
+    if (debug) {
+      Serial.println("Message sent to ESP!");
+    }
   }
-  else {
-    Serial.println("Feil i OSC-pakke!");
+  if (debug) {
+    Serial.println("Error in OSC message!");
   }
   msgOUT.empty();
 }
@@ -35,10 +37,14 @@ void OSCMsgSend(char address[18], float value)
     SLIPSerial.beginPacket();
     msgOUT.send(SLIPSerial);
     SLIPSerial.endPacket();
-    Serial.println("Pakke sendt til ESP!");
+    if (debug) {
+      Serial.println("Message sent to ESP!");
+    }
   }
   else {
-    Serial.println("Feil i OSC-pakke!");
+    if (debug) {
+      Serial.println("Error in OSC message!");
+    }
   }
   msgOUT.empty();
 }
@@ -66,10 +72,13 @@ void OSCMsgReceive()
 
   if(!msgIN.hasError())
   {
-    Serial.println("Routing OSC message");
+    if (debug) {
+      Serial.println("Routing OSC message");
+    }
     msgIN.route("/Program",changeLEDProgram);
     msgIN.route("/Variable",changeValue);
     msgIN.route("/Preset",changePreset);
+    msgIN.route("/Colorpreset",changeColorPreset);
   }
 
 }

@@ -31,10 +31,11 @@ extern int led_coordinates [NUM_LEDS_PER_STRIP*NUM_STRIPS][2];
 extern int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 
 
-// ----- INITIALIZING VARIABLES ----- //
+// ----- DECLEARING VARIABLES ----- //
 enum program { NONE, CUSTOM_LAMP, BLINK, CYCLE, THEATER_CHASE, SCANNER};
 enum direction { FORWARD, REVERSE};
 enum display_mode { CONTINOUS_STRIP, SAME_ON_ALL_STRIPS };
+extern bool debug;
 extern display_mode displaymode;
 extern direction dir;
 extern program active_program;

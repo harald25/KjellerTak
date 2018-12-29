@@ -14,5 +14,6 @@ void setLampAddress(int lamp);
 void setCustomlampPreset(uint8_t preset_number);
 void allLampsOff();
 void allLampsOn();
+void updateCustomLampState();
 
 #endif

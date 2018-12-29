@@ -16,6 +16,7 @@ void setSlope(float s);
 void changeLEDProgram(OSCMessage &msg, int addrOffset );
 void changeValue(OSCMessage &msg, int addrOffset );
 void changePreset(OSCMessage &msg, int addrOffset );
+void changeColorPreset(OSCMessage &msg, int addrOffset );
 void setColor1(uint8_t x, uint8_t y);
 void updateBlinkRandomTime(uint32_t x);
 void setActivePalette(int x);
