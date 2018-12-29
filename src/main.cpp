@@ -2,7 +2,7 @@
 
 // DEGUGGING
 // If set to true, debug messages will be output to serial device
-bool debug = true;
+bool debug = false;
 
 int led_array [NUM_LEDS_PER_STRIP*NUM_STRIPS];
 CRGB leds [NUM_LEDS_PER_STRIP*NUM_STRIPS];

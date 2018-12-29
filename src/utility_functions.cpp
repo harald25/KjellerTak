@@ -107,7 +107,7 @@ void changeColorPreset(OSCMessage &msg, int addrOffset )
 
   update = true;  //Times are a changin', we need to update
 
-  if(msg.fullMatch("/Colorpreset/") && (active_program == CUSTOM_LAMP))
+  if(msg.fullMatch("/Colorpreset") && (active_program == CUSTOM_LAMP))
   {
 
     if (debug) {
@@ -360,25 +360,35 @@ void setColorPreset(uint8_t color_preset)
   //Warm white
   if(color_preset == 1)
   {
+
     setHue1(25);
-    setSaturation1(200);
+    setSaturation1(180);
     setValue1(255);
+    if (debug) {
+      Serial.println("Activated the color preset warm white");
+    }
   }
 
   //Orange
   if(color_preset == 2)
   {
-    setHue1(200);
-    setSaturation1(200);
+    setHue1(20);
+    setSaturation1(255);
     setValue1(255);
+    if (debug) {
+      Serial.println("Activated the color preset orange");
+    }
   }
 
   //Bluegreen
   if(color_preset == 3)
   {
     setHue1(128);
-    setSaturation1(255);
+    setSaturation1(200);
     setValue1(255);
+    if (debug) {
+      Serial.println("Activated the color preset bluegreen");
+    }
   }
   //Purple
   if(color_preset == 4)
@@ -386,5 +396,8 @@ void setColorPreset(uint8_t color_preset)
     setHue1(230);
     setSaturation1(255);
     setValue1(255);
+    if (debug) {
+      Serial.println("Activated the color preset purple");
+    }
   }
 }
