@@ -149,10 +149,9 @@ void changeLEDProgram(OSCMessage &msg, int addrOffset )
 
   }
 
-  if(msg.fullMatch("/Program/theater_chase"))
+  if(msg.fullMatch("/Program/theaterchase"))
   {
     theaterChase();
-
     if (debug) {
       Serial.println("Activated the program Theater Chase");
     }

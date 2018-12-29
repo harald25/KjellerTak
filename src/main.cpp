@@ -87,7 +87,7 @@ void setup() {
 
 
   ledArrayMaker();
-  customLamp();
+  blink();
 }
 
 void loop() {
